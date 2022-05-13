@@ -16,6 +16,7 @@ return new class extends Migration
         Schema::create('institutions', function (Blueprint $table) {
             $table->id();
             $table->string('nama')->nullable();
+            $table->string('no_badan_hukum')->nullable();
             $table->text('alamat')->nullable();
             $table->string('kode_pos')->nullable();
             $table->string('telepon')->nullable();

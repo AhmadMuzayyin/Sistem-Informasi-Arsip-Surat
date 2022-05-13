@@ -57,7 +57,7 @@
                                             <div class="form-group">
                                                 <label for="logo">Logo</label>
                                                 <input type="file" class="form-control @error('logo') is-invalid @enderror"
-                                                    id="logo" name="logo" value="{{ $item->logo }}" required />
+                                                    id="logo" name="logo" value="{{ $item->logo }}" />
                                             </div>
                                         </div>
                                     </div>

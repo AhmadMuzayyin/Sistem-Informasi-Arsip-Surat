@@ -49,10 +49,10 @@
                                                     id="jenis_kelamin" name="jenis_kelamin">
                                                     <option value="">Select</option>
                                                     <option value="1"
-                                                        {{ $item->user_detail->jenis_kelamin == 1 ? 'selected' : '' }}>
+                                                        {{ $item->user_detail ? ($item->user_detail->jenis_kelamin == 1 ? 'selected' : '') : '' }}>
                                                         Laki - Laki</option>
                                                     <option value="2"
-                                                        {{ $item->user_detail->jenis_kelamin == 2 ? 'selected' : '' }}>
+                                                        {{ $item->user_detail ? ($item->user_detail->jenis_kelamin == 2 ? 'selected' : '') : '' }}>
                                                         Perempuan</option>
                                                 </select>
                                             </div>
@@ -62,12 +62,15 @@
                                                 <label for="alamat">Alamat Lengkap</label>
                                                 <input type="text"
                                                     class="form-control @error('alamat') is-invalid @enderror" id="alamat"
-                                                    name="alamat" value="{{ $item->user_detail->alamat }}" required />
+                                                    name="alamat"
+                                                    value="{{ $item->user_detail ? $item->user_detail->alamat : '' }}"
+                                                    required />
                                             </div>
                                             <div class="form-group">
                                                 <label for="no_hp">No Hp</label>
                                                 <input type="text" class="form-control @error('no_hp') is-invalid @enderror"
-                                                    id="no_hp" name="no_hp" value="{{ $item->user_detail->no_hp }}"
+                                                    id="no_hp" name="no_hp"
+                                                    value="{{ $item->user_detail ? $item->user_detail->no_hp : '' }}"
                                                     required />
                                             </div>
                                             <div class="form-group">

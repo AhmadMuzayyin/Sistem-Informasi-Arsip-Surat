@@ -6,8 +6,9 @@
 
                 <!-- Logo-->
                 <div>
-                    <a href="{{ url('/') }}" class="logo">
-                        <img src="{{ url('assets/images/logo-dark.png') }}" class="logo-lg" alt="" height="22">
+                    <a href="{{ url('/dashboard') }}" class="logo">
+                        {{-- <img src="{{ url('assets/images/logo-dark.png') }}" class="logo-lg" alt="" height="22"> --}}
+                        <span style="font-size: 150%;"><strong>SINARSU</strong></span>
                     </a>
                 </div>
                 <!-- End Logo-->
@@ -112,14 +113,10 @@
                                     <!-- item-->
                                     <a class="dropdown-item" href="#"><i class="mdi mdi-account-circle"></i>
                                         Profile</a>
-                                    <a class="dropdown-item" href="#"><i class="mdi mdi-wallet"></i> My Wallet</a>
-                                    <a class="dropdown-item d-block" href="#"><span
-                                            class="badge badge-success float-right">11</span><i
-                                            class="mdi mdi-settings"></i> Settings</a>
                                     <a class="dropdown-item" href="#"><i class="mdi mdi-lock-open-outline"></i> Lock
                                         screen</a>
                                     <div class="dropdown-divider"></div>
-                                    <a class="dropdown-item text-danger" href="#"><i
+                                    <a class="dropdown-item text-danger" href="{{ url('/logout') }}"><i
                                             class="mdi mdi-power text-danger"></i> Logout</a>
                                 </div>
                             </div>
@@ -157,7 +154,8 @@
                         <div class="page-title-box">
                             <h4 class="page-title">Dashboard</h4>
                             <ol class="breadcrumb">
-                                <li class="breadcrumb-item active">Welcome to Zegva Dashboard</li>
+                                <li class="breadcrumb-item active">Selamat datang di Sistem Informasi Arsip Surat Pondok
+                                    Pesantren Annuqayah</li>
                             </ol>
                         </div>
                     </div>
@@ -170,7 +168,58 @@
                         </div>
                     </div>
                 </div>
+                {{-- Chart --}}
+                <div class="row top-content">
+                    <div class="col-sm-6 col-xl-3">
+                        <div class="row align-items-center p-1">
+                            <div class="col-lg-6">
+                                <h5 class="font-16 text-white">Total Pengguna</h5>
+                                <h4 class="text-info pt-1 mb-0">$67,670</h4>
+                            </div>
+                            <div class="col-lg-6">
+                                <div id="chart1"></div>
+                            </div>
+                        </div>
+                    </div>
 
+                    <div class="col-sm-6 col-xl-3">
+                        <div class="row align-items-center p-1">
+                            <div class="col-lg-6">
+                                <h5 class="font-16 text-white">Total Lembaga</h5>
+                                <h4 class="text-warning pt-1 mb-0">$7,360</h4>
+                            </div>
+                            <div class="col-lg-6">
+                                <div id="chart2"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-6 col-xl-3">
+                        <div class="row align-items-center p-1">
+                            <div class="col-lg-6">
+                                <h5 class="font-16 text-white">Total Surat Masuk</h5>
+                                <h4 class="text-primary pt-1 mb-0">$5000</h4>
+                            </div>
+                            <div class="col-lg-6">
+                                <div id="chart3"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-6 col-xl-3">
+
+                        <div class="row align-items-center p-1">
+                            <div class="col-lg-6">
+                                <h5 class="font-16 text-white">Total Surat Keluar</h5>
+                                <h4 class="text-danger pt-1 mb-0">$2,480</h4>
+                            </div>
+                            <div class="col-lg-6">
+                                <div id="chart4"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {{-- End Chart --}}
             </div>
         </div>
         <!-- end content -->
@@ -185,7 +234,7 @@
                     <ul class="navigation-menu">
 
                         <li class="has-submenu">
-                            <a href="{{ url('/') }}"><i class="dripicons-meter"></i> Dashboard</a>
+                            <a href="{{ url('/dashboard') }}"><i class="dripicons-meter"></i> Dashboard</a>
                         </li>
 
                         <li class="has-submenu">
@@ -196,16 +245,18 @@
                             </ul>
                         </li>
 
-                        <li class="has-submenu">
-                            <a href="{{ url('/user') }}"><i class="dripicons-briefcase"></i> Data Pengguna</a>
-                        </li>
+                        @if (\Auth()->user()->isAdmin == true)
+                            <li class="has-submenu">
+                                <a href="{{ url('/user') }}"><i class="dripicons-briefcase"></i> Data Pengguna</a>
+                            </li>
+                        @endif
 
 
                         <li class="has-submenu">
                             <a href="#"><i class="dripicons-view-thumb"></i> Data Surat</a>
                             <ul class="submenu">
-                                <li><a href="{{ url('letter') }}">Surat Masuk</a></li>
-                                <li><a href="advanced-rating.html">Surat Keluar</a></li>
+                                <li><a href="{{ url('incomingmail') }}">Surat Masuk</a></li>
+                                <li><a href="{{ url('letter') }}">Surat Keluar</a></li>
                             </ul>
                         </li>
 

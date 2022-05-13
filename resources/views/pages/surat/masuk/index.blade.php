@@ -9,50 +9,56 @@
                     <div class="card">
                         <div class="card-body">
                             <h4 class="mt-0 header-title mb-4">Data Surat Masuk</h4>
-                            <a href="{{ url('/letter/create') }}" class="btn btn-sm btn-info mb-3">Tambah</a>
-                            <table id="datatable" class="table table-bordered dt-responsive nowrap"
-                                style="border-collapse: collapse; border-spacing: 0; width: 100%;">
-                                <thead>
-                                    <tr>
-                                        <th>No</th>
-                                        <th>Kepemilikan</th>
-                                        <th>Hal</th>
-                                        <th>Tujuan</th>
-                                        <th>Pelaksanaan</th>
-                                        <th>Tempat</th>
-                                        <th><i class="fa fa-cog"></i></th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @foreach ($data as $item)
+                            <a href="{{ url('/incomingmail/create') }}" class="btn btn-sm btn-info mb-3">Tambah</a>
+                            <div class="table-responsive">
+                                <table id="datatable" class="table table-bordered dt-responsive nowrap"
+                                    style="border-spacing: 0;">
+                                    <thead>
                                         <tr>
-                                            <td>{{ $loop->iteration }}</td>
-                                            <td>{{ $item->institution->nama }}</td>
-                                            <td>{{ $item->perihal }}</td>
-                                            <td>{{ $item->tujuan }}</td>
-                                            <td>{{ date('d-M-Y', strtotime($item->tgl_pelaksanaan)) }}</td>
-                                            <td>{{ $item->tempat_pelaksanaan }}</td>
-                                            <td>
-                                                <div class="btn-group">
-                                                    <a href="{{ url('/print-surat') . '/' . $item->id }}"
-                                                        class="btn btn-sm btn-info" role="button"><i
-                                                            class="fa fa-print"></i></a>
-                                                    <a href="{{ url('/print-surat') . '/' . $item->id . '/edit' }}"
-                                                        class="btn btn-sm btn-warning" role="button"><i
-                                                            class="fa fa-pencil-alt"></i></a>
-                                                    <form action="{{ url('/user') . '/' . $item->id }}" method="POST">
-                                                        @method('DELETE')
-                                                        @csrf
-                                                        <button type="submit" role="button" class="btn btn-sm btn-danger">
-                                                            <i class="fa fa-trash"></i>
-                                                        </button>
-                                                    </form>
-                                                </div>
-                                            </td>
+                                            <th>No</th>
+                                            <th>Jenis Surat</th>
+                                            <th>Pengirim</th>
+                                            <th>Tujuan</th>
+                                            <th>Tanggal Masuk</th>
+                                            <th>File</th>
+                                            <th><i class="fa fa-cog"></i></th>
                                         </tr>
-                                    @endforeach
-                                </tbody>
-                            </table>
+                                    </thead>
+                                    <tbody>
+                                        @foreach ($data as $item)
+                                            <tr>
+                                                <td class="text-center">{{ $loop->iteration }}</td>
+                                                <td class="text-center">{{ $item->jenis_surat }}</td>
+                                                <td class="text-center">{{ $item->institution->nama }}</td>
+                                                <td class="text-center">{{ $item->tujuan }}</td>
+                                                <td class="text-center">{{ $item->tanggal_masuk }}</td>
+                                                <td class="text-center">
+                                                    <img src="{{ asset('storage/uploads') . '/' . $item->file_name }}"
+                                                        alt="{{ $item->file_name }}" width="50px" height="50px"
+                                                        id="image{{ $item->id }}" class="img"
+                                                        data-id="{{ $item->id }}" style="cursor: zoom-in">
+                                                </td>
+                                                <td class=" text-center">
+                                                    <div class="btn-group">
+                                                        <a href="{{ url('/incomingmail') . '/' . $item->id . '/edit' }}"
+                                                            class="btn btn-sm btn-warning" role="button"><i
+                                                                class="fa fa-pencil-alt"></i></a>
+                                                        <form action="{{ url('/incomingmail') . '/' . $item->id }}"
+                                                            method="POST">
+                                                            @method('DELETE')
+                                                            @csrf
+                                                            <button type="submit" role="button"
+                                                                class="btn btn-sm btn-danger">
+                                                                <i class="fa fa-trash"></i>
+                                                            </button>
+                                                        </form>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        @endforeach
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -67,9 +73,37 @@
 
 @push('script')
     <script>
+        $(function() {
+            $('.table-responsive').responsiveTable({
+                addDisplayAllBtn: 'btn btn-secondary'
+            });
+        });
         $(document).ready(function() {
             $('#datatable').DataTable();
-        });
+            $('.img').click(function(e) {
+                e.preventDefault();
+                var id = $(this).data('id');
+                const viewer = new Viewer(document.getElementById('image' + id), {
+                    inline: false,
+                    loading: true,
+                    fullscreen: false,
+                    loop: false,
+                    movable: true,
+                    navbar: false,
+                    rotatable: false,
+                    scalable: false,
+                    slodeOnTouch: false,
+                    title: false,
+                    toggleOnDblclick: false,
+                    toolbar: false,
+                    tooltip: false,
+                    zoomOnWheel: false,
+                    viewed() {
+                        viewer.show();
+                    },
+                })
+            })
+        })
         @if (Session::has('success'))
             toastr.options =
             {

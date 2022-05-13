@@ -10,45 +10,53 @@
                         <div class="card-body">
                             <h4 class="mt-0 header-title mb-4">Data Lembaga</h4>
                             <a href="{{ url('/institution/create') }}" class="btn btn-sm btn-info mb-3">Tambah</a>
-                            <table id="datatable" class="table table-bordered dt-responsive nowrap"
-                                style="border-collapse: collapse; border-spacing: 0; width: 100%;">
-                                <thead>
-                                    <tr>
-                                        <th>No</th>
-                                        <th>Nama</th>
-                                        <th>Alamat</th>
-                                        <th>Telepon</th>
-                                        <th>Logo</th>
-                                        <th><i class="fa fa-cog"></i></th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @foreach ($data as $item)
+                            <div class="table-responsive b-0">
+                                <table id="datatable" class="table table-bordered dt-responsive nowrap"
+                                    style="border-spacing: 0;">
+                                    <thead>
                                         <tr>
-                                            <td>{{ $loop->iteration }}</td>
-                                            <td>{{ $item->nama }}</td>
-                                            <td>{{ $item->alamat }}</td>
-                                            <td>{{ $item->telepon }}</td>
-                                            <td>{{ $item->logo }}</td>
-                                            <td>
-                                                <div class="btn-group">
-                                                    <a href="{{ url('/institution') . '/' . $item->id . '/edit' }}"
-                                                        class="btn btn-sm btn-warning" role="button"><i
-                                                            class="fa fa-pencil-alt"></i></a>
-                                                    <form action="{{ url('/institution') . '/' . $item->id }}"
-                                                        method="POST">
-                                                        @method('DELETE')
-                                                        @csrf
-                                                        <button type="submit" role="button" class="btn btn-sm btn-danger">
-                                                            <i class="fa fa-trash"></i>
-                                                        </button>
-                                                    </form>
-                                                </div>
-                                            </td>
+                                            <th>No</th>
+                                            <th>Nama</th>
+                                            <th>Alamat</th>
+                                            <th>Telepon</th>
+                                            <th>Logo</th>
+                                            <th><i class="fa fa-cog"></i></th>
                                         </tr>
-                                    @endforeach
-                                </tbody>
-                            </table>
+                                    </thead>
+                                    <tbody>
+                                        @foreach ($data as $item)
+                                            <tr>
+                                                <td>{{ $loop->iteration }}</td>
+                                                <td>{{ $item->nama }}</td>
+                                                <td>{{ $item->alamat }}</td>
+                                                <td>{{ $item->telepon }}</td>
+                                                <td>
+                                                    <img src="{{ asset('storage/uploads') . '/' . $item->logo }}"
+                                                        alt="{{ $item->logo }}" width="50px" height="50px"
+                                                        id="image{{ $item->id }}" class="img"
+                                                        data-id="{{ $item->id }}" style="cursor: zoom-in">
+                                                </td>
+                                                <td>
+                                                    <div class="btn-group">
+                                                        <a href="{{ url('/institution') . '/' . $item->id . '/edit' }}"
+                                                            class="btn btn-sm btn-warning" role="button"><i
+                                                                class="fa fa-pencil-alt"></i></a>
+                                                        <form action="{{ url('/institution') . '/' . $item->id }}"
+                                                            method="POST">
+                                                            @method('DELETE')
+                                                            @csrf
+                                                            <button type="submit" role="button"
+                                                                class="btn btn-sm btn-danger">
+                                                                <i class="fa fa-trash"></i>
+                                                            </button>
+                                                        </form>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        @endforeach
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -63,8 +71,36 @@
 
 @push('script')
     <script>
+        $(function() {
+            $('.table-responsive').responsiveTable({
+                addDisplayAllBtn: 'btn btn-secondary'
+            });
+        });
         $(document).ready(function() {
             $('#datatable').DataTable();
+            $('.img').click(function(e) {
+                e.preventDefault();
+                var id = $(this).data('id');
+                const viewer = new Viewer(document.getElementById('image' + id), {
+                    inline: false,
+                    loading: true,
+                    fullscreen: false,
+                    loop: false,
+                    movable: true,
+                    navbar: false,
+                    rotatable: false,
+                    scalable: false,
+                    slodeOnTouch: false,
+                    title: false,
+                    toggleOnDblclick: false,
+                    toolbar: false,
+                    tooltip: false,
+                    zoomOnWheel: false,
+                    viewed() {
+                        viewer.show();
+                    },
+                })
+            })
         });
         @if (Session::has('success'))
             toastr.options =

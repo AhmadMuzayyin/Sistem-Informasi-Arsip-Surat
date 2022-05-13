@@ -16,9 +16,10 @@ class LetterController extends Controller
         //     'message' => 'Berhasil menampilkan semua data surat keluar.',
         //     'users' => $data,
         // ], 200);
-        return view('pages.surat.masuk.index', [
-            'data' => $data
-        ]);
+        // return view('pages.surat.keluar.index', [
+        //     'data' => $data
+        // ]);
+        return view('comingsoon');
     }
     function create(){
         $data = Institution::all();
@@ -72,7 +73,7 @@ class LetterController extends Controller
             //     'data' => $users,
             // ];
             // return response()->json($response, 201);
-            return redirect('/letter')->with('success', 'Berhasil menambah data surat masuk.');
+            return redirect('/letter')->with('success', 'Berhasil menambah data surat keluar.');
         } catch (QueryException $th) {
             return response()->json([
                 'message' => 'Something went wrong',
@@ -109,6 +110,15 @@ class LetterController extends Controller
                 'message' => 'Something went wrong',
                 'error' => $th->errorInfo,
             ], 500);
+        }
+    }
+
+    public function print($id){
+        $surat = Letter::findOrFail($id);
+        try {
+            return view('pages.surat.masuk.print', compact('surat'));
+        } catch (QueryException $th) {
+            return back()->with(['error' => $th->errorInfo]);
         }
     }
 }

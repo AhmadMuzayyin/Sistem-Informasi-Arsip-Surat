@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Institution;
 use Illuminate\Http\Request;
+use Illuminate\Database\QueryException;
 
 class InstitutionController extends Controller
 {
@@ -27,6 +28,9 @@ class InstitutionController extends Controller
             'logo' => 'required'
         ]);
         try {
+                $file = $request->file('logo');
+                $gambar = 'user_name'. now()->format('d-M-Y').time().'.'.$file->getClientOriginalExtension();
+                $request->file('logo')->storeAs('public/uploads', $gambar);
                 Institution::create([
                     'nama' => $request->nama,
                     'alamat' => $request->alamat,
@@ -34,7 +38,7 @@ class InstitutionController extends Controller
                     'telepon' => $request->telepon,
                     'email' => $request->email,
                     'fax' => $request->fax,
-                    'logo' => 'logo.jpg',
+                    'logo' => $gambar,
                 ]);
                 return redirect('/institution')->with('success', 'Berhasil menambah data lembaga.');
         } catch (QueryException $th) {
@@ -51,6 +55,20 @@ class InstitutionController extends Controller
     public function update(Request $request, $id){
         $data = Institution::findOrFail($id);
         try {
+            if ($request->file('logo') != null) {
+                $file = $request->file('logo');
+                $gambar = 'user_name'. now()->format('d-M-Y').time().'.'.$file->getClientOriginalExtension();
+                $request->file('logo')->storeAs('public/uploads', $gambar);
+                $data->update([
+                    'nama' => $request->nama,
+                    'alamat' => $request->alamat,
+                    'kode_pos' => $request->kode_pos,
+                    'telepon' => $request->telepon,
+                    'email' => $request->email,
+                    'fax' => $request->fax,
+                    'logo' => $gambar,
+                ]);
+            }
             $data->update([
                 'nama' => $request->nama,
                 'alamat' => $request->alamat,
@@ -58,7 +76,6 @@ class InstitutionController extends Controller
                 'telepon' => $request->telepon,
                 'email' => $request->email,
                 'fax' => $request->fax,
-                'logo' => 'logo.jpg',
             ]);
             return redirect('institution')->with('success', 'Berhasil merubah data lembaga.');
         } catch (QueryException $th) {

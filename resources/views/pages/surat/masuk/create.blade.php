@@ -9,131 +9,80 @@
                     <div class="card">
                         <div class="card-body">
                             <h4 class="mt-0 header-title mb-4">Tambah Data Surat Masuk</h4>
-                            <a href="{{ url('/letter') }}" class="btn btn-sm btn-info mb-3">Kembali</a>
-                            <form action="{{ url('/letter') }}" method="POST">
+                            <a href="{{ url('/incomingmail') }}" class="btn btn-sm btn-info mb-3">Kembali</a>
+                            <form action="{{ url('/incomingmail') }}" method="POST" enctype="multipart/form-data">
                                 @csrf
+                                {{-- Start Header Surat --}}
                                 <div class="row">
                                     <div class="col-md col-sm col-lg">
                                         <div class="form-group">
-                                            <label for="kop">KOP SURAT</label>
-                                            <select class="form-control @error('kop') is-invalid @enderror" id="kop"
-                                                name="kop" required>
+                                            <label for="pengirim">Pengirim</label>
+                                            <select class="form-control @error('pengirim') is-invalid @enderror"
+                                                id="pengirim" name="pengirim" required>
                                                 <option value="">Select</option>
                                                 @foreach ($data as $item)
                                                     <option value="{{ $item->id }}">{{ $item->nama }}</option>
                                                 @endforeach
                                             </select>
                                         </div>
-                                        {{-- Start Header Surat --}}
-                                        <div class="row">
-                                            <div class="col-md col-sm col-lg">
-                                                <div class="form-group">
-                                                    <label for="no">No Surat</label>
-                                                    <input type="text"
-                                                        class="form-control @error('no') is-invalid @enderror" id="no"
-                                                        name="no" value="{{ old('no') }}" required />
-                                                </div>
-                                                <div class="form-group">
-                                                    <label for="lampiran">Lampiran</label>
-                                                    <input type="text"
-                                                        class="form-control @error('lampiran') is-invalid @enderror"
-                                                        id="lampiran" name="lampiran" value="{{ old('lampiran') }}"
-                                                        required />
-                                                </div>
-                                            </div>
-                                            <div class="col-md col-sm col-lg">
-                                                <div class="form-group">
-                                                    <label for="perihal">Hal</label>
-                                                    <input type="text"
-                                                        class="form-control @error('perihal') is-invalid @enderror"
-                                                        id="perihal" name="perihal" value="{{ old('perihal') }}"
-                                                        required />
-                                                </div>
-                                                <div class="form-group">
-                                                    <label for="tujuan">Tujuan</label>
-                                                    <input type="text"
-                                                        class="form-control @error('tujuan') is-invalid @enderror"
-                                                        id="tujuan" name="tujuan" value="{{ old('tujuan') }}" required />
-                                                </div>
-                                            </div>
-                                        </div>
-                                        {{-- End Header Surat --}}
-                                        {{-- Start Header Surat --}}
-                                        <div class="row">
-                                            <div class="col-md col-sm col-lg">
-                                                <div class="form-group">
-                                                    <label for="tanggal">Tanggal Pelaksanaan</label>
-                                                    <input type="date"
-                                                        class="form-control @error('tanggal') is-invalid @enderror"
-                                                        id="tanggal" name="tanggal" value="{{ old('tanggal') }}"
-                                                        required />
-                                                </div>
-                                                <div class="form-group">
-                                                    <label for="tempat">Tempat Pelaksanaan</label>
-                                                    <input type="text"
-                                                        class="form-control @error('tempat') is-invalid @enderror"
-                                                        id="tempat" name="tempat" value="{{ old('tempat') }}" required />
-                                                </div>
-                                            </div>
-                                            <div class="col-md col-sm col-lg">
-                                                <div class="form-group">
-                                                    <label for="waktu">Waktu Pelaksanaan</label>
-                                                    <input type="time"
-                                                        class="form-control @error('waktu') is-invalid @enderror" id="waktu"
-                                                        name="waktu" value="{{ old('waktu') }}" required />
-                                                </div>
-                                                <div class="form-group">
-                                                    <label for="tempat_pembuatan">Tempat Pembuatan Surat</label>
-                                                    <input type="text"
-                                                        class="form-control @error('tempat_pembuatan') is-invalid @enderror"
-                                                        id="tempat_pembuatan" name="tempat_pembuatan"
-                                                        value="{{ old('tempat_pembuatan') }}" required />
-                                                </div>
-                                            </div>
-                                        </div>
-                                        {{-- End Header Surat --}}
                                         <div class="form-group">
-                                            <label for="pembukaan">Pembukaan</label>
-                                            <textarea id="pembukaan" class="form-control" name="pembukaan" rows="3"
-                                                required></textarea>
+                                            <label for="nomor">Nomor Surat</label>
+                                            <input type="text" class="form-control  @error('nomor') is-invalid @enderror"
+                                                name="nomor" id="nomor" value="{{ old('nomor') }}" required>
                                         </div>
                                         <div class="form-group">
-                                            <label for="penutup">Penutup</label>
-                                            <textarea id="penutup" class="form-control" name="penutup" rows="3"
-                                                required></textarea>
+                                            <label for="perihal">Perihal</label>
+                                            <input type="text" class="form-control  @error('perihal') is-invalid @enderror"
+                                                name="perihal" id="perihal" value="{{ old('perihal') }}" required>
                                         </div>
-                                        <div class="row">
-                                            <div class="col-md col-sm col-lg">
-                                                <div class="form-group">
-                                                    <label for="nama">Nama Pembuat</label>
-                                                    <input type="text"
-                                                        class="form-control @error('nama') is-invalid @enderror" id="nama"
-                                                        name="nama" value="{{ old('nama') }}" required />
-                                                </div>
-                                            </div>
-                                            <div class="col-md col-sm col-lg">
-                                                <div class="form-group">
-                                                    <label for="nip">NIP/NIS</label>
-                                                    <small class="text-muted">*Jika ada</small>
-                                                    <input type="text"
-                                                        class="form-control @error('nip') is-invalid @enderror" id="nip"
-                                                        name="nip" value="{{ old('nip') }}" />
-                                                </div>
-                                            </div>
+                                        <div class="form-group">
+                                            <label for="tembusan">Tembusan</label>
+                                            <input type="text" class="form-control" name="tembusan" id="tembusan">
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="jenis_surat">Jenis Surat</label>
+                                            <select class="form-control @error('jenis_surat') is-invalid @enderror"
+                                                id="jenis_surat" name="jenis_surat" required>
+                                                <option value="">Select</option>
+                                                <option value="Internal">Internal</option>
+                                                <option value="Eksternal">Eksternal</option>
+                                            </select>
                                         </div>
                                     </div>
-                                </div>
-
-                                <div class="form-group mb-0">
-                                    <div>
-                                        <button type="submit" class="btn btn-primary waves-effect waves-light">
-                                            Submit
-                                        </button>
+                                    <div class="col-md col-sm col-lg">
+                                        <div class="form-group">
+                                            <label for="tujuan">Tujuan</label>
+                                            <input type="text" class="form-control  @error('tujuan') is-invalid @enderror"
+                                                name="tujuan" id="tujuan" value="{{ old('tujuan') }}" required>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="tanggal">Tanggal Masuk</label>
+                                            <input type="date" class="form-control  @error('tanggal') is-invalid @enderror"
+                                                name="tanggal" id="tanggal" value="{{ old('tanggal') }}" required>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="lampiran">Lampiran</label>
+                                            <input type="text" class="form-control" name="lampiran" id="lampiran">
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="cq">C.q.</label>
+                                            <input type="text" class="form-control" name="cq" id="cq">
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="file">File Surat</label>
+                                            <input type="file" class="form-control @error('file') is-invalid @enderror"
+                                                id="file" name="file" required />
+                                        </div>
+                                        <div class="form-group mt-5">
+                                            <button type="submit" class="btn btn-primary waves-effect waves-light">
+                                                Submit
+                                            </button>
+                                        </div>
                                     </div>
                                 </div>
                             </form>
-                        </div>
-                    </div>
+                        </div> {{-- End Card Body --}}
+                    </div> {{-- end card --}}
                 </div>
 
             </div>

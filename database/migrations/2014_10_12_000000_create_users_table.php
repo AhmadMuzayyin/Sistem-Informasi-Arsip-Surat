@@ -23,6 +23,7 @@ return new class extends Migration
             $table->string('fullname');
             $table->string('email')->unique();
             $table->string('password');
+            $table->string('isAdmin');
             $table->rememberToken();
             $table->timestamps();
         });
